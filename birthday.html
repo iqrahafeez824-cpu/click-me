@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday Saria Bhai 🎉</title>
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ff4d6d, #ff9a9e);
+    color: #fff;
+    text-align: center;
+    height: 100vh;
+}
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+}
+/* Gifts */
+.gifts { display: flex; justify-content: center; gap: 25px; margin-bottom: 20px; }
+.gift { font-size: 70px; cursor: pointer; opacity: 0; transform: translateY(50px) scale(0.5); transition: all 0.6s ease; }
+.gift.show { opacity: 1; transform: translateY(0) scale(1); animation: pop 0.5s ease; }
+@keyframes pop { 0% { transform: scale(0.5); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+/* Wishes */
+.wish { font-size: 22px; margin: 10px 0; opacity: 0; transform: translateY(20px) scale(0.8); transition: all 0.8s ease; }
+.wish.show { opacity: 1; transform: translateY(0) scale(1); animation: glowPop 1s ease forwards; }
+@keyframes glowPop { 0% { text-shadow: 0 0 2px #fff; } 50% { text-shadow: 0 0 10px #ffd700,0 0 20px #ff69b4; } 100% { text-shadow:0 0 5px #fff; } }
+/* Note */
+#noteSection { font-size: 20px; margin-top: 20px; opacity: 0; transform: translateY(20px) scale(0.8); transition: all 1s ease; }
+/* Final Slide */
+#finalSlide { 
+    font-size: 40px; font-weight:bold; opacity:0; margin-top:20px; transform: translateY(50px) scale(0.5); 
+    text-shadow: 0 0 10px #fff,0 0 20px #ff69b4; 
+    transition: all 1s ease; 
+}
+#finalSlide.show {
+    opacity: 1;
+    transform: translateY(0) scale(1.2);
+    animation: finalPop 1s ease forwards, glowPulse 2s infinite alternate;
+}
+@keyframes finalPop { 0% { transform: translateY(50px) scale(0.5); } 60% { transform: translateY(-10px) scale(1.3); } 100% { transform: translateY(0) scale(1.1); } }
+@keyframes glowPulse { 0% { text-shadow: 0 0 10px #fff,0 0 20px #ff69b4; } 100% { text-shadow: 0 0 20px #ffd700,0 0 40px #ff69b4; } }
+/* Hearts */
+.heart { position: absolute; bottom: -20px; font-size:20px; color:#ff6eb4; animation: floatUp 5s linear infinite; }
+@keyframes floatUp { 0% {transform: translateY(0); opacity:1;} 100% {transform: translateY(-120vh); opacity:0;} }
+/* Confetti */
+.confetti { position: absolute; width:10px; height:10px; background-color:#ffd700; opacity:0.8; animation: confettiFall 3s linear forwards;}
+@keyframes confettiFall { 0% {transform: translateY(0) rotate(0deg);} 100% {transform: translateY(100vh) rotate(360deg); opacity:0;} }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Gifts -->
+    <div id="giftSection">
+        <h1>🎁 Choose Your Gifts 🎁</h1>
+        <div class="gifts">
+            <div class="gift" onclick="revealGiftWish(0)">🎁</div>
+            <div class="gift" onclick="revealGiftWish(1)">🎁</div>
+            <div class="gift" onclick="revealGiftWish(2)">🎁</div>
+        </div>
+    </div>
+
+    <!-- Wishes -->
+    <div id="wishSection" class="hidden">
+        <p class="wish" id="wish0">Allah apko hamesha khush rakhein ❤️</p>
+        <p class="wish" id="wish1">Allah apko lambi zindagi aur sehat de 🤲</p>
+        <p class="wish" id="wish2">Har din apka khushiyon se bhara ho ✨</p>
+    </div>
+
+    <!-- Note -->
+    <div id="noteSection" class="hidden">
+        <h1>💌 A Special Message</h1>
+        <p>
+            Saria Bhai, aap sirf ek dost nahi balkay mere liye ek family jese ho.<br>
+            Aap ne hamesha mujhe guide kiya hai bilkul ek real brother ki tarah.<br>
+            Agar mera koi bara bhai hota to main bilkul aap jesa hi chahti ❤️<br><br>
+            Allah aapko bohat zyada khushiyan de, aur kabhi koi dukh ya takleef na de 🤲<br>
+            Allah hamesha aapko buri nazar se bachaye, aur wo har cheez ata kare jo aap chahte hain aur jo aapke haq mein behtar ho ✨<br>
+            Aapki married life hamesha khushgawar rahe, Allah aap dono ko hamesha khush rakhe 💕<br>
+            Aap dono sath mein bohat cute lagte ho, aur bhabhi to bilkul bubbly si hain 😊
+        </p>
+    </div>
+
+    <!-- Final Slide -->
+    <div id="finalSlide">🎉 Happiest Birthday Saria Bhai! 🎉</div>
+</div>
+
+<audio id="song">
+  <source src="data:audio/mpeg;base64,//uQxAAABAAAA..." type="audio/mpeg">
+</audio>
+
+<script>
+// Floating hearts
+setInterval(()=>{
+    let heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="💖";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(Math.random()*25+15)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),5000);
+},300);
+
+// Gifts animation
+const gifts=document.querySelectorAll('.gift');
+gifts.forEach((gift,i)=>{ setTimeout(()=>gift.classList.add('show'),i*500); });
+
+let revealedCount=0;
+function revealGiftWish(index){
+    const wish=document.getElementById('wish'+index);
+    document.getElementById("giftSection").style.display="none";
+    document.getElementById("wishSection").classList.remove("hidden");
+    wish.classList.add("show");
+    revealedCount++;
+    if(revealedCount===3){ setTimeout(showNoteAndConfetti,1000); }
+    else {
+        gifts.forEach((gift,i)=>{ if(i!==index) gift.style.display='inline-block'; });
+        document.getElementById("giftSection").style.display="flex";
+    }
+}
+
+// Note + confetti
+function showNoteAndConfetti(){
+    document.getElementById("giftSection").style.display="none";
+    document.getElementById("wishSection").style.display="none";
+    const note=document.getElementById("noteSection");
+    note.classList.remove("hidden");
+    createConfetti(100);
+    setTimeout(()=>{
+        note.style.opacity="1";
+        document.getElementById("song").play();
+        setTimeout(showFinalSlide,2000);
+    },500);
+}
+
+// Final slide with glow + zoom + sparkle
+function showFinalSlide(){
+    const slide=document.getElementById("finalSlide");
+    slide.classList.add("show");
+    createConfetti(50); // extra confetti for slide
+}
+
+// Confetti generator
+function createConfetti(count){
+    for(let i=0;i<count;i++){
+        let conf=document.createElement("div");
+        conf.className="confetti";
+        conf.style.left=Math.random()*100+"vw";
+        conf.style.backgroundColor=`hsl(${Math.random()*360},100%,50%)`;
+        conf.style.width=(5+Math.random()*5)+"px";
+        conf.style.height=(5+Math.random()*5)+"px";
+        document.body.appendChild(conf);
+        setTimeout(()=>conf.remove(),3000);
+    }
+}
+
+// Mobile click workaround
+document.body.addEventListener("click",()=>document.getElementById("song").play(),{once:true});
+</script>
+</body>
+</html>
